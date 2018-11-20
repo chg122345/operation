@@ -1,0 +1,34 @@
+server:
+  port: 8081
+  tomcat:
+    uri-encoding: UTF-8
+spring:
+  datasource:
+    url: jdbc:mysql://120.78.131.95:3306/m_file?useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true&rewriteBatchedStatements=TRUE
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: org.jleopard.datam.model
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    cache-enabled: true
+thymeleaf:
+  cache: false
+  encoding: UTF-8
+  prefix: classpath:/templates/
+  suffix: .html
+  mode: HTML
+  check-template-location: false
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql false

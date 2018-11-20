@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/header :: #jl_header}"></head>
+<body>
+<div class="layui-row jl-login-box">
+    <div class="layui-col-md10 layui-col-md-offset1">
+        <div class="form-title">上传资料</div>
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">资料名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" required autocomplete="off" placeholder="请输入资料名称" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">小组名称</label>
+                <div class="layui-input-block">
+                    <select name="teamId">
+                        <option th:each="team : ${teamList}" th:value="${team.id}" th:if="${team.id != 0}">[[${team.title}]]</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">上传人</label>
+                <div class="layui-input-block">
+                    <input type="text" name="userName" autocomplete="off" th:value="${session.user.name}" disabled class="layui-input layui-disabled">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">资料简介</label>
+                <div class="layui-input-block">
+                    <textarea name="description" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">上传文件</label>
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn" id="up-file">
+                        <i class="layui-icon">&#xe67c;</i>上传文件
+                    </button>
+                    <input type="hidden" name="filePath" id="jl-filePath">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn  layui-btn-normal"  lay-submit="" lay-filter="jl-upload">上传</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    layui.use(['upload','form'], function(){
+        var upload = layui.upload,
+            form = layui.form,
+        $ = layui.jquery;
+        //执行实例
+        upload.render({
+            elem: '#up-file' //绑定元素
+            ,url: '/uploadFile' //上传接口
+            ,accept: 'file'
+            ,done: function(res){
+                $('#jl-filePath').val(res.data)
+                console.log(res);
+                return;
+            }
+        });
+        form.on('submit(jl-upload)', function(data){
+            $.post("/upload",data.field,function (res) {
+                layer.msg(res.msg,function () {
+                    if (res.code === 200){
+                        window.location.href="/index";
+                    }
+                })
+            })
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

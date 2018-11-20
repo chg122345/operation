@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/header :: #jl_header}"></head>
+<body>
+<div class="layui-row jl-login-box">
+    <div class="layui-col-md4 layui-col-md-offset3" id="jl-login-box">
+        <div class="form-title">登 录</div>
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">学号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="id" lay-verify="identifier" autocomplete="off" placeholder="请输入学号" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="password" lay-verify="pass" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="jl-login">立即登录</button>
+                    <button type="button" class="layui-btn let-right" id="jl-register">去注册</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="layui-col-md4 layui-col-md-offset3" style="display: none;" id="jl-register-box">
+        <div class="form-title">注 册</div>
+        <form class="layui-form" lay-filter="loginForm">
+            <div class="layui-form-item">
+                <label class="layui-form-label">学号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="id" lay-verify="identifier" autocomplete="off" placeholder="请输入学号" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">昵称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" required autocomplete="off" placeholder="请输入昵称" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="password" lay-verify="pass" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">班级</label>
+                <div class="layui-input-block">
+                    <input type="text" name="clbum" placeholder="请输入班级" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">联系方式</label>
+                <div class="layui-input-block">
+                    <input type="text" name="phone" placeholder="请输入手机号" lay-verify="phone" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所在小组</label>
+                <div class="layui-input-block">
+                    <select name="teamId" id="team-select">
+                        <option th:each="team : ${teamList}" th:value="${team.id}" th:if="${team.id != 0}">[[${team.title}]]</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn  layui-btn-normal" lay-submit="" lay-filter="jl-reg">立即注册</button>
+                    <button type="button" class="layui-btn  layui-btn-normal let-right" id="jl-login">去登录</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    layui.use(['layer', 'form'], function(){
+        let layer = layui.layer,
+            form = layui.form,
+            $ = layui.jquery;
+      /*  $(function(){
+
+        });*/
+        function loadingTeamList(){
+            $.get("/teamList",function (res) {
+                if (res.code === 200){
+                    let list = res.data.teamList;
+                    console.log(list);
+                    $.each(list, function (i, item) {
+                        console.log(JSON.stringify(item)+"--->"+i)
+                        $("#team-select").append("<option value='"+item.id+"'>"+item.title+"</option>");
+                    });
+                }
+            })
+        }
+        $('#jl-register').click(function () {
+            loadingTeamList();
+            $('#jl-register-box').show();
+            $('#jl-login-box').hide();
+        })
+        $('#jl-login').click(function () {
+            $('#jl-register-box').hide();
+            $('#jl-login-box').show();
+        })
+
+        //自定义验证规则
+        form.verify({
+            identifier: function(value){
+                if(value.length < 5){
+                    return '学号不少于5位';
+                }
+            }
+            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+        });
+        //监听提交
+        form.on('submit(jl-login)', function(data){
+           /* layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            })*/
+           $.post("/login",data.field,function (res) {
+               layer.msg(res.msg)
+               if (res.code === 200){
+                   window.location.href="/index"
+               }
+           })
+            return false;
+        });
+        form.on('submit(jl-reg)', function(data){
+           $.post("/register",data.field,function (res) {
+               layer.msg(res.msg)
+           })
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

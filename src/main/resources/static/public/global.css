@@ -1,0 +1,14 @@
+.jl-login-box{
+   padding-top: 10%;
+}
+.form-title{
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: "Microsoft YaHei";
+    font-size: 25px;
+    color: #333333;
+    font-weight: bold;
+}
+.let-right{
+    float: right;
+}
