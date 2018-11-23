@@ -36,7 +36,7 @@
                 <tbody>
                 <tr th:each="item:${fileList}">
                     <td th:text="${item.team.title}"></td>
-                    <td th:text="${item.title}"></td>
+                    <td><a th:href="@{'/detail/'+${item.id}}" th:text="${item.title}"></a></td>
                     <td th:text="${item.userIp}"></td>
                     <td th:text="${item.userName}"></td>
                     <td th:text="${item.created}"></td>

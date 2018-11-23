@@ -7,7 +7,7 @@ spring:
     url: jdbc:mysql://120.78.131.95:3306/m_file?useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true&rewriteBatchedStatements=TRUE
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: 
+    password: ZXF-cgLOVE1223
   http:
     encoding:
       charset: UTF-8

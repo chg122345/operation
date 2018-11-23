@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/header :: #jl_header}"></head>
+<body>
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-col-md10  layui-col-md-offset1">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150">
+                    <col width="200">
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>小组名称</th>
+                    <th>资料名称</th>
+                    <th>IP</th>
+                    <th>上传人</th>
+                    <th>创建时间</th>
+                    <th>更新时间</th>
+                    <th>浏览数</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text="${uploadFile.team.title}"></td>
+                    <td th:text="${uploadFile.title}"></td>
+                    <td th:text="${uploadFile.userIp}"></td>
+                    <td th:text="${uploadFile.userName}"></td>
+                    <td th:text="${uploadFile.created}"></td>
+                    <td th:text="${uploadFile.modification}"></td>
+                    <td th:text="${uploadFile.viewCount}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="layui-col-md10  layui-col-md-offset1">
+            <h3>资料简介</h3>
+            <input type="hidden" th:value="${uploadFile.userId}" id="file-userId">
+            <input type="hidden" th:value="${uploadFile.id}" id="file-id">
+            <textarea class="layui-textarea" th:text="${uploadFile.description}" id="file-description"></textarea>
+        </div>
+        <div class="layui-col-md10  layui-col-md-offset1">
+            <div style="float: right;">
+                <button type="button" class="layui-btn" id="file-del">删除</button>
+                <button type="button" class="layui-btn" id="file-update">修改资料</button>
+                <button type="button" class="layui-btn" id="file-down">下载</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['layer'], function(){
+        let layer = layui.layer,
+            $ = layui.jquery;
+        $('#file-del').click(function () {
+            $.ajax({
+                url:'/fileDelete',
+                data:{
+                    userId:$('#file-userId').val(),
+                    id : $('#file-id').val(),
+                },
+                method:'DELETE',
+                success:function (res) {
+                    layer.msg(res.msg)
+                    if (res.code === 200){
+                        window.location.href="/index"
+                    }
+                }
+            })
+        })
+        $('#file-update').click(function () {
+            $.ajax({
+                url:'/fileUpdate',
+                data:{
+                    userId:$('#file-userId').val(),
+                    id : $('#file-id').val(),
+                    description :  $('#file-description').val(),
+                },
+                method:'POST',
+                success:function (res) {
+                    layer.msg(res.msg)
+                    if (res.code === 200){
+                       window.location.reload()
+                    }
+                }
+            })
+        })
+    })
+</script>
+</body>
+</html>

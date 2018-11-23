@@ -59,6 +59,7 @@ CREATE TABLE `upload_file` (
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `modification` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `team_id` int(11) NOT NULL DEFAULT '0',
+  `user_id` varchar(50),
   PRIMARY KEY (`id`),
   KEY `fk_upload_file_team1` (`team_id`),
   CONSTRAINT `fk_upload_file_team1` FOREIGN KEY (`team_id`) REFERENCES `team` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION

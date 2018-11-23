@@ -18,16 +18,14 @@ import org.jleopard.datam.model.UploadFile;
 import org.jleopard.datam.model.User;
 import org.jleopard.datam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.jleopard.datam.common.MsgResultKey.FILE;
 import static org.jleopard.datam.common.MsgResultKey.FILE_LIST;
 import static org.jleopard.datam.common.MsgResultKey.TEAM_LIST;
 
@@ -105,5 +103,12 @@ public class IndexController {
             }
         }
         return new ModelAndView("index").addObject(FILE_LIST,uploadFiles);
+    }
+
+    @SysLog("详情页")
+    @GetMapping("/detail/{id}")
+    public ModelAndView detail(@PathVariable("id") Integer id){
+        UploadFile uploadFile = uploadFileMapper.selectByPrimaryKey(id);
+        return new ModelAndView("detail").addObject(FILE,uploadFile);
     }
 }

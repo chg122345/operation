@@ -23,6 +23,8 @@ public class UploadFile {
 
     private Integer teamId;
 
+    private String userId;
+
     private Team team;
 
     public Integer getId() {
@@ -111,5 +113,13 @@ public class UploadFile {
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

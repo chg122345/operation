@@ -22,4 +22,6 @@ public interface MsgResultKey {
     String TEAM_LIST = "teamList";
 
     String FILE_LIST = "fileList";
+
+    String FILE = "uploadFile";
 }

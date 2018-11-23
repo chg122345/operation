@@ -12,11 +12,12 @@
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="modification" property="modification" jdbcType="TIMESTAMP" />
     <result column="team_id" property="teamId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR"/>
     <association property="team" select="org.jleopard.datam.dao.TeamMapper.selectByPrimaryKey" column="team_id"></association>
   </resultMap>
   <sql id="Base_Column_List" >
     id, title, user_name, description, file_path, user_ip, view_count, created, modification, 
-    team_id
+    team_id,user_id
   </sql>
   <select id="selectByWhere" resultMap="BaseResultMap" parameterType="org.jleopard.datam.model.UploadFile" >
     select 
