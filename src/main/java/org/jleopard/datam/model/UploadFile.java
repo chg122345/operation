@@ -1,5 +1,7 @@
 package org.jleopard.datam.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class UploadFile {
@@ -17,8 +19,10 @@ public class UploadFile {
 
     private Integer viewCount;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date created;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date modification;
 
     private Integer teamId;

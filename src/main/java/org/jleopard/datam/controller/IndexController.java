@@ -42,13 +42,21 @@ public class IndexController {
     private UploadFileMapper uploadFileMapper;
 
     @SysLog("去登录页")
-    @GetMapping("/")
+    @GetMapping("/login")
     public ModelAndView login(){
         List<Team> teamList = teamMapper.selectByWhere(new Team());
         return new ModelAndView("login").addObject(TEAM_LIST,teamList);
     }
+
+    @SysLog("登出")
+    @GetMapping("/logout")
+    public ModelAndView logout(HttpSession session){
+        session.removeAttribute("user");
+        return new ModelAndView("redirect:/login");
+    }
+
     @SysLog("浏览首页")
-    @GetMapping("/index")
+    @GetMapping({"/index","/"})
     public ModelAndView home(){
         List<UploadFile> uploadFileList = uploadFileMapper.selectByWhere(new UploadFile());
         return new ModelAndView("index").addObject(FILE_LIST,uploadFileList);

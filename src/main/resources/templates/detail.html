@@ -3,9 +3,10 @@
 <head th:replace="~{common/header :: #jl_header}"></head>
 <body>
 <div class="layui-container">
-    <div class="layui-row">
+    <div class="layui-row" style="padding-top: 50px;">
         <div class="layui-col-md10  layui-col-md-offset1">
             <table class="layui-table">
+                <caption>文件详情</caption>
                 <colgroup>
                     <col width="150">
                     <col width="200">
@@ -28,8 +29,8 @@
                     <td th:text="${uploadFile.title}"></td>
                     <td th:text="${uploadFile.userIp}"></td>
                     <td th:text="${uploadFile.userName}"></td>
-                    <td th:text="${uploadFile.created}"></td>
-                    <td th:text="${uploadFile.modification}"></td>
+                    <td th:text="${#dates.format(uploadFile.created, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${#dates.format(uploadFile.modification,'yyy-MM-dd HH:mm:ss')}"></td>
                     <td th:text="${uploadFile.viewCount}"></td>
                 </tr>
                 </tbody>
@@ -45,7 +46,7 @@
             <div style="float: right;">
                 <button type="button" class="layui-btn" id="file-del">删除</button>
                 <button type="button" class="layui-btn" id="file-update">修改资料</button>
-                <button type="button" class="layui-btn" id="file-down">下载</button>
+                <a type="button" class="layui-btn" th:href="@{'/fileDownload?id='+${uploadFile.id}+'&fileName='+${uploadFile.filePath}}">下载</a>
             </div>
         </div>
     </div>
@@ -61,7 +62,7 @@
                     userId:$('#file-userId').val(),
                     id : $('#file-id').val(),
                 },
-                method:'DELETE',
+                method:'POST',
                 success:function (res) {
                     layer.msg(res.msg)
                     if (res.code === 200){

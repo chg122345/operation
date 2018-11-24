@@ -19,4 +19,6 @@ public interface UploadFileMapper {
     List<UploadFile> selectByWhere(UploadFile uploadFile);
 
     int deleteByWhere(UploadFile uploadFile);
+
+    int updateViewCountByPrimaryKey(Integer id);
 }

@@ -1,5 +1,7 @@
 package org.jleopard.datam.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Team {
@@ -9,6 +11,7 @@ public class Team {
 
     private String description;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date created;
 
     public Integer getId() {

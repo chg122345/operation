@@ -27,8 +27,3 @@ thymeleaf:
   suffix: .html
   mode: HTML
   check-template-location: false
-pagehelper:
-  helperDialect: mysql
-  reasonable: true
-  supportMethodsArguments: true
-  params: count=countSql false

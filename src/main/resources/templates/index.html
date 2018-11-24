@@ -5,6 +5,12 @@
 <div class="layui-container">
     <div class="layui-row">
         <div class="layui-col-md10  layui-col-md-offset1">
+            <div style="padding-top: 20px; float: right;" th:if="${session.user}">
+                <i th:text="${session.user.name}" style="color: #333333;"></i>
+                <a href="/logout">退出</a>
+            </div>
+        </div>
+        <div class="layui-col-md10  layui-col-md-offset1">
             <div class="layui-col-md-12" style="padding-top: 50px;">
                 <form action="/search" method="post">
                     <input type="radio" name="model" value="1">按资料名称
@@ -39,8 +45,8 @@
                     <td><a th:href="@{'/detail/'+${item.id}}" th:text="${item.title}"></a></td>
                     <td th:text="${item.userIp}"></td>
                     <td th:text="${item.userName}"></td>
-                    <td th:text="${item.created}"></td>
-                    <td th:text="${item.modification}"></td>
+                    <td th:text="${#dates.format(item.created, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${#dates.format(item.modification,'yyy-MM-dd HH:mm:ss')}"></td>
                     <td th:text="${item.viewCount}"></td>
                 </tr>
                 </tbody>
